@@ -14,20 +14,22 @@ public class SparkConfig {
 
 	private SparkContext sparkContext;
 	private SparkSession sparkSession;
-	private SparkConf sparkConf;
 
 	public SparkConfig() {
-		this.sparkConf = new SparkConf().setAppName("test").setMaster("local[*]");
-		initialize();
 	}
 	
-	public SparkConfig(SparkConf sparkConf) {
-		this.sparkConf = sparkConf;
-		initialize();
+	public SparkConfig(SparkConfigType sparkConfigType) {
+		this.initialize(sparkConfigType);
 	}
-
-	public void initialize() {
-		this.sparkContext = new SparkContext(this.sparkConf);
+	
+	public void initialize(SparkConfigType sparkConfigType) {
+		if(sparkConfigType == SparkConfigType.LOCAL) {
+			SparkConf sparkConf = new SparkConf().setAppName("local").setMaster("local[*]");
+			this.sparkContext = new SparkContext(sparkConf);
+		} else {
+			this.sparkContext = SparkContext.getOrCreate();
+		}
+		
 		this.sparkSession = new SparkSession(this.sparkContext);
 	}
 	
@@ -47,13 +49,4 @@ public class SparkConfig {
 	public void setSparkSession(SparkSession sparkSession) {
 		this.sparkSession = sparkSession;
 	}
-
-	public SparkConf getSparkConf() {
-		return sparkConf;
-	}
-
-	public void setSparkConf(SparkConf sparkConf) {
-		this.sparkConf = sparkConf;
-	}
-
 }

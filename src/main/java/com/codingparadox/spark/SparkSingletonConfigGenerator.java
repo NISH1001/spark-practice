@@ -1,7 +1,5 @@
 package com.codingparadox.spark;
 
-import org.apache.spark.SparkConf;
-
 /**
  * A factory method that generates singleton object
  *
@@ -13,16 +11,10 @@ public class SparkSingletonConfigGenerator {
 	private SparkSingletonConfigGenerator() {
 	}
 	
-	public static SparkConfig getSingletonInstance() {
+	public static SparkConfig getSingletonInstance(SparkConfigType sparkConfigType) {
 		if(sparkConfig == null) {
-			sparkConfig = new SparkConfig();
-		}
-		return sparkConfig;
-	}
-
-	public static SparkConfig getSingletonInstance(SparkConf sparkConf) {
-		if(sparkConfig == null) {
-			sparkConfig = new SparkConfig(sparkConf);
+			System.out.println("Creating SparkConfig object...");
+				sparkConfig = new SparkConfig(sparkConfigType);
 		}
 		return sparkConfig;
 	}
