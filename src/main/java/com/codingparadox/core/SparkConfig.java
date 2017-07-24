@@ -1,4 +1,4 @@
-package com.codingparadox.spark;
+package com.codingparadox.core;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;

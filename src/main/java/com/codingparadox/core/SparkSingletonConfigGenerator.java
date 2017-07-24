@@ -1,4 +1,4 @@
-package com.codingparadox.spark;
+package com.codingparadox.core;
 
 /**
  * A factory method that generates singleton object

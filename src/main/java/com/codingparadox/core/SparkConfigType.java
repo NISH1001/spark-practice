@@ -1,4 +1,4 @@
-package com.codingparadox.spark;
+package com.codingparadox.core;
 
 public enum SparkConfigType {
 	LOCAL,
