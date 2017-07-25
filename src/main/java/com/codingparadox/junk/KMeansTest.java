@@ -29,6 +29,7 @@ public class KMeansTest {
 				.setNumFeatures(5);
 		
 		Dataset<Row> experienceFeatures = hashingTF.transform(data);
+		experienceFeatures.show(20, false);
 		
 		IDF idf = new IDF().setInputCol("tf").setOutputCol("features");
 		IDFModel idfModel = idf.fit(experienceFeatures);
