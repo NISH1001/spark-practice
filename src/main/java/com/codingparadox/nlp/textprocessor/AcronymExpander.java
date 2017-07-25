@@ -14,6 +14,8 @@ import com.codingparadox.utils.StringUtils;
  * 
  */
 public class AcronymExpander implements TextProcessor {
+	
+	private final TextProcessor acronymDotRemover = new AcronymDotRemover();
 
 	/**
 	 * Mapping for the acronym
@@ -36,7 +38,7 @@ public class AcronymExpander implements TextProcessor {
 	}
 
 	public String processText(String text) {
-		text = this.removeDotsFromAcronym(text);
+		text = this.acronymDotRemover.processText(text);
 
 		// loop through the map
 		for(Entry entry : this.acronymMap.entrySet()) {
@@ -53,19 +55,18 @@ public class AcronymExpander implements TextProcessor {
 	}
 
 	/**
-	 * Removes dots from the acronym.
-	 * Eg:
-	 * 		C.E.O. => CEO
+	 * It expands the acronym
 	 * 
-	 * @param text
-	 * 		It is the input text
+	 * @param matches
+	 * 		List of Tuple(start, end) that gives the positions of the acronym
+	 * @param source
+	 * 		The original text
+	 * @param substitute
+	 * 		Full form to substitute
+	 * @param acronymLength
+	 * 		Length of the acronym
 	 * @return
-	 * 		Text with acronym without dots
 	 */
-	private String removeDotsFromAcronym(String text) {
-		return text.replaceAll("(?<!\\w)([A-Z])\\.", "$1");
-	}
-
 	private String expand(List<Pair<Integer, Integer>> matches,
 			String source,
 			String substitute,
