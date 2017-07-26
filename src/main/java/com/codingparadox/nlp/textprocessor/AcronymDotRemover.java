@@ -13,7 +13,7 @@ package com.codingparadox.nlp.textprocessor;
 public class AcronymDotRemover implements TextProcessor {
 
 	public String processText(String text) {
-		return text.replaceAll("(?<!\\w)([A-Z])\\.", "$1");
+		return text.replaceAll("(?<!\\w)([A-Za-z])\\.", "$1");
 	}
 
 }

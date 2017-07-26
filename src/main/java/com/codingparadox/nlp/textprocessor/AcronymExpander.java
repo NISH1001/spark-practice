@@ -32,9 +32,11 @@ public class AcronymExpander implements TextProcessor {
 		this.acronymMap.put("CCO", "Chief Compliance Officer");
 		this.acronymMap.put("CSO", "Chief Security Officer");
 		this.acronymMap.put("CDO", "Chief Data Officer");
+		this.acronymMap.put("VP", "Vice President");
 		this.acronymMap.put("Sr", "Senior");
 		this.acronymMap.put("Jr", "Junior");
 		this.acronymMap.put("Mr", "Mister");
+		this.acronymMap.put("Mgr", "Manager");
 	}
 
 	public String processText(String text) {
@@ -49,7 +51,7 @@ public class AcronymExpander implements TextProcessor {
 			// if no match, the pair contains (-1,-1)
 			List<Pair<Integer, Integer>> matches = 
 					StringUtils.matchWord(text, acronym, true);
-			text = this.expand(matches, text, fullForm, acronym.length());
+			text = this.expand(matches, text, fullForm);
 		}
 		return text;
 	}
@@ -69,25 +71,24 @@ public class AcronymExpander implements TextProcessor {
 	 */
 	private String expand(List<Pair<Integer, Integer>> matches,
 			String source,
-			String substitute,
-			int acronymLength) {
+			String substitute) {
 		if(matches.isEmpty()) {
 			return source;
 		}
-
 		String text = source;
-		boolean multipleExpansion = false;
-		int substituteLength = substitute.length();
+		int offset = 0;
 		for(Pair<Integer, Integer> match : matches) {
 			int start = match.getLeft();
 			int end = match.getRight();
-			int offset = (!multipleExpansion) ? 0 : substituteLength - acronymLength;
+			
+			String beforeExpansion = text;
 			
 			text = StringUtils.replaceStringChars(start + offset, 
 					end + offset, 
 					text, 
 					substitute);
-			multipleExpansion = true;
+			
+			offset += text.length() - beforeExpansion.length();
 		}
 		return text;
 	}
